@@ -16,22 +16,14 @@ function solution(n, edge) {
         })
         
         let newQueue = new Set();
-        while(queue.length > 0){
+        while(queue.length){
             const node = queue.shift();
-            const nextVisited = edgeMap[node];
-            nextVisited.forEach((v)=>{
+            edgeMap[node].forEach((v)=>{
                 if(!visitedMap[v]) newQueue.add(v);
             })
         }
-        
-        newQueue = [...newQueue];
-        if(newQueue.length === 0){
-            return currentNodeNum;
-        }
-        else{
-            return bfs(newQueue);
-        }
+        return newQueue.size === 0 ? currentNodeNum : bfs([...newQueue]);
     }
-    visitedMap[1] = true;
-    return bfs(edgeMap[1]);
+​
+    return bfs([1]);
 }
