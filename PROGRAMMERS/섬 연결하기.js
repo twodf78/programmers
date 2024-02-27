@@ -16,7 +16,7 @@ const findParent = (parent, a, b) => {
 ​
 function solution(n, costs) {
   let answer = 0;
-  const parent = Array.from({ length: n }, (v, i) => i);
+  const parent = Array.from({ length: n }, (_, i) => ({ [i]: i })).reduce((acc, obj) => Object.assign(acc, obj), {});
 ​
   costs.sort((a, b) => a[2] - b[2]);
 ​
