@@ -13,11 +13,8 @@ function solution(tickets) {
   tickets = [...withICN.sort(), ...withoutICN.sort()];
 ​
   function bfs(i) {
-    let visited = [];
-    let queue = [];
-​
-    queue.push([tickets[i][1], [tickets[i][0]]]);
-    visited.push([i]);
+    let visited = [[i]];
+    let queue = [[tickets[i][1], [tickets[i][0]]]];
 ​
     while (queue.length) {
       let current = queue.shift();
