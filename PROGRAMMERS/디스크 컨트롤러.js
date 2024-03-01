@@ -13,8 +13,6 @@ const getCurrentQueue = (list, currentTime)=>{
 }
 ​
 function solution(jobs) {
-    const jobCount = jobs.length;
-​
     let jobsChecked = jobs.map((v)=>[...v, false]);
     let timeEndOfCurrentJob = getMinVal(jobsChecked);
     let currentQueue = getCurrentQueue(jobsChecked,timeEndOfCurrentJob);
@@ -36,5 +34,5 @@ function solution(jobs) {
         }
     }
     
-    return (totalWaitTime / jobCount) >> 0;
+    return (totalWaitTime / jobs.length) >> 0;
 }
