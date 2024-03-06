@@ -1,12 +1,10 @@
 function solution(sequence) {
-    let m = 0, M = 0;
-    let acc = m;
-​
+    let min = 0, max = 0;
+    let acc = 0;
     for (let i = 0; i < sequence.length; i++) {
-        acc = i % 2 == 1 ? acc - sequence[i] : acc + sequence[i];
-​
-        M = Math.max(M, acc);
-        m = Math.min(m, acc);
+        acc = i % 2 === 0 ? acc - sequence[i] : acc + sequence[i];
+        max = Math.max(max, acc);
+        min = Math.min(min, acc);
     } 
-    return M == m ? 0 : M - m;
+    return max - min;
 }
