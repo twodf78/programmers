@@ -1,12 +1,7 @@
 function solution(scores) {
-    var answer = 0;
     const [shAttitude, shPeer] = scores[0];
     const shSum = shAttitude + shPeer;
-    scores.sort((a, b)=>{
-        let sumA = a[0] + a[1];
-        let sumB = b[0] + b[1]; 
-        return  sumA - sumB ;
-    })
+    scores.sort((a, b)=>(a[0] + a[1]) - (b[0] + b[1]))
     
     let idx = 0;
     for(idx; idx< scores.length; idx++){
@@ -14,23 +9,23 @@ function solution(scores) {
             break;
         }
     }
-​
     scores = scores.slice(idx);
     
     for(let i = 0; i< scores.length; i++){
         if(scores[i][0] > shAttitude && scores[i][1] > shPeer) return -1;
     }
     
-    const filterIdx = [];
+    let answer = scores.length + 1;
+    
     for(let i = 0; i<scores.length; i++){
         const [att, peer] = scores[i];
         for(let j = i + 1; j<scores.length; j++){
             if(att < scores[j][0] && peer < scores[j][1]){
-                filterIdx.push(i);
+                answer--;
                 break;
             }
         }
     }    
 ​
-    return scores.length - filterIdx.length + 1;
+    return answer;
 }
