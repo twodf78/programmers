@@ -1,38 +1,44 @@
+function chkPrime(num) {
+    if (num < 2) return false;
+    if (num === 2) return true;
+    for (var i = 2; i <= Math.sqrt(num); i++) {
+        if (num%i===0) return false;
+    }
+    return true;
+}
+​
+​
+const visit = (n, idx) =>{
+    return Array.from({length: n}, (v, i) => i === idx);
 }
 function solution(numbers) {
-    var answer = 0;
-​
-    var n = numbers.split('');
-    var nums = new Set()
-    combi(n,'');
-​
-    function combi(a, s) {
-        if (s.length > 0) {
-            const num = Number(s);
-            if (!nums.has(num)) {
-                nums.add(num);
-            }
-        }
-        if (a.length > 0) {
-            for (var i = 0; i< a.length; i++) {
-                var t = a.slice(0)
-                t.splice(i,1);
-                combi(t,s + a[i]);
-            }
+    
+    const numList = numbers.split("");
+    const numSet = new Set();
+    
+    const dfs = (str, visit) =>{
+        numSet.add(Number(str));
+        for(let i = 0; i< numbers.length; i++){
+            if(visit[i]) continue;
+            const newVisit = [...visit];
+            newVisit[i] = true;
+            dfs(str + numbers[i], newVisit);
         }
     }
-​
-    for(const num of [...nums]){
-        if(chkPrime(num))answer++;
+    
+    for(let i = 0; i< numList.length; i++){
+        dfs(numList[i], visit(numList.length, i));
     }
-    function chkPrime(num) {
-        if (num < 2) return false;
-        if (num === 2) return true;
-        for (var i = 2; i <= Math.sqrt(num); i++) {
-            if (num%i===0) return false;
-        }
-        return true;
+    
+    
+    const list = [...numSet];
+    let answer = 0;
+    for(const num of list){
+        if(chkPrime(num)) answer++;
     }
-​
     return answer;
 }
+​
+​
+​
+​
