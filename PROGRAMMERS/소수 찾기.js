@@ -1,3 +1,4 @@
+}
 function solution(numbers) {
     var answer = 0;
 ​
@@ -10,9 +11,6 @@ function solution(numbers) {
             const num = Number(s);
             if (!nums.has(num)) {
                 nums.add(num);
-                if (chkPrime(num)) {
-                    answer++;
-                }
             }
         }
         if (a.length > 0) {
@@ -24,6 +22,9 @@ function solution(numbers) {
         }
     }
 ​
+    for(const num of [...nums]){
+        if(chkPrime(num))answer++;
+    }
     function chkPrime(num) {
         if (num < 2) return false;
         if (num === 2) return true;
