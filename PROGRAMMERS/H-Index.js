@@ -1,23 +1,16 @@
 function solution(citations) {
-    citations.sort((a,b)=>a-b);
-​
-    let hMax = 10000;
-    let hMin = 0;
-    while(hMin<=hMax){
-        let hMid = Math.ceil((hMax + hMin) /2 );
-​
-        const hOver = citations.filter((v)=>v>=hMid).length;
-        if(hOver>=hMid){
-            if(citations.length - hOver - 1 < 0 || citations[citations.length - hOver - 1] <= hMid){
-                hMin = hMid + 1;
-            }
-            else{
-                hMax = hMid - 1;
-            }
+    citations.sort((a, b)=>a - b);
+    let min = 0;
+    let max = Math.max(...citations);
+    while(min<=max){
+        let hMid = ((min+max) / 2) >> 0;
+        const h = citations.filter((v)=>v>=hMid).length;
+        const rest = citations.length - h;
+        if(h >= hMid && rest <= hMid){
+            min = hMid + 1;
         }else{
-            hMax = hMid - 1;
+            max = hMid - 1;
         }
     }
-    
-    return hMax <= -1 ? 0 : hMax;
+    return max;
 }
