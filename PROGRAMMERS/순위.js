@@ -1,34 +1,32 @@
-        }
 function solution(n, results) {
-    let answer = 0;
-    
-    const gameResult = Array.from({length: n + 1}, _=>[[],[]]);
-    const rank = Array.from({length: n + 1}, _=>[]);
+    const winList = Array.from({length: n + 1}, _ => []);
+    const loseList = Array.from({length: n + 1}, _ => []);
     
     for(const [win, lose] of results){
-        gameResult[win][0].push(lose);
-        gameResult[lose][1].push(win);
+        winList[win].push(lose);
+        loseList[lose].push(win);
+    }
+    const getResult = (idx, winOrLoose, visit) => {
+        let res = 0;
+        const queue = winOrLoose ? winList[idx] : loseList[idx];
+        for(let i = 0; i< queue.length; i++){
+            const idx= queue[i];
+            if(visit[idx]) continue;
+            visit[idx] = true;
+            if(winOrLoose === 1){
+                res += getResult(idx, 1, visit) + 1;
+            }else{
+                res += getResult(idx, 0, visit) + 1;
+            }
+        }
+        return res;
     }
     
-    const findRank = (i, winOrLoose, visit) =>{
-        let rank = 0;
-        const nextQueue = gameResult[i][winOrLoose];
-        
-        for(const next of nextQueue){
-            if(visit[next]) continue;
-            visit[next] = true;
-            rank += findRank(next, winOrLoose, visit) + 1;
-        }
-        return rank;
+    let answer = 0;
+    for(let i = 1; i<= n;i++){
+        const win = getResult(i, 1, Array.from({length: n + 1}, _ => false));
+        const lose = getResult(i, 0, Array.from({length: n + 1}, _ => false));
+        if(win + lose >= n - 1) answer++;
     }
-    for(let i = 1; i<=n ; i++){
-        const wins = findRank(i, 0, Array.from({length : n+1}, (_)=>false));
-        const loses = findRank(i, 1, Array.from({length : n+1}, (_)=>false));
-        
-        if(wins + loses >= n - 1){
-            answer++;
-        }
-    }
-        
     return answer;
 }
