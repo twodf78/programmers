@@ -1,29 +1,42 @@
 function solution(distance, rocks, n) {
-    rocks=[...rocks.sort((a,b)=>a-b),distance];
+    rocks.sort((a, b)=>a-b);
+    const interval = Array.from({length: rocks.length + 1}, _ => 0);
+    interval[0] = rocks[0];
+    for(let i = 1; i < rocks.length; i++){
+        interval[i] = rocks[i] - rocks[i - 1];
+    }
+    interval[interval.length - 1] = distance - rocks[rocks.length - 1];
     
-    const calculateDist = (k) => {
-        let startDist = 0;
-        let cnt = n;
-        for(let i = 0 ; i < rocks.length;i++){
-            const curDist = rocks[i]-startDist;
-            if(curDist < k) cnt--;
-            else startDist = rocks[i];
-        }
+    const isAble = (mid) =>{
+        let count = n;
+        for(let i = 0; i< interval.length ; i++){
+            let current = interval[i];
+            if(current >= mid) continue;
+            while(current < mid){
+                count--;
+                if(i < interval.length - 1){
+                    i++;
+                    current += interval[i];
+                }else{
+                    break;
+                }
+                if(count < 0) break;
+            }
+        };
+        return count >= 0;
+    }
         
-        if(cnt<0) return false;
-        return true;
-    }
-    
-    
-    
-    let min = 0;
+    let min = 0; 
     let max = distance;
-    while(min<=max){
-        const mid = Math.floor((min+max)/2);
-        if(calculateDist(mid)) min = mid+1;
-        else max = mid -1;
+    let answer = 0;
+    while(min <= max){
+        let mid = Math.floor((min + max) / 2);
+​
+        if(isAble(mid)){
+            min = mid + 1;
+        }else{
+            max = mid - 1;
+        }
     }
-    
     return max;
 }
-​
