@@ -1,28 +1,23 @@
-const isAble = (n, list, totalTime) =>{
-    let max = 0;
-    for(let i =0; i<list.length; i++){
-        max += Math.floor(totalTime / list[i]);
-        if(max >= n) return true;
-    }
-    return false;
-}
-​
 function solution(n, times) {
-    var answer = 0;
-    times.sort((a,b)=>a-b);
-    
-    let max = times[times.length - 1] * n;
+    times.sort((a, b) => a-b);
     let min = 1;
+    let max = times[0] * n;
     
+    const isAble = (mid) =>{
+        let count = 0;
+        for(const time of times){
+            count+=Math.floor(mid / time);
+            if(count >= n) return true;
+        }
+        return false;
+    }
     while(min<= max){
         let mid = Math.floor((min + max) / 2);
-        
-        if(isAble(n, times, mid)){
+        if(isAble(mid)){
             max = mid - 1;
         }else{
             min = mid + 1;
         }
-        }else{
     }
     return min;
 }
