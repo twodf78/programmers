@@ -4,8 +4,6 @@ def solution(s, skip, index):
         alpha.remove(c) 
     answer = ""
     for c in s:
-        idx = alpha.index(c) + index 
-        while(idx >= len(alpha)):
-            idx -= len(alpha)
+        idx = (alpha.index(c) + index) % len(alpha)
         answer+=alpha[idx]
     return answer
